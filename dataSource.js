@@ -30,7 +30,7 @@ function readXlsxColumn(filePath, columns) {
         row = {};
         for (var j = 0, len = columns.length; j < len; j++) {
             tmp = xlsxData.Sheets[sheetName][[columns[j] + i]];
-            if (!tmp || !tmp.v || !tmp.v.trim()) {
+            if (!tmp || !tmp.v || !tmp.v.toString().trim()) {
                 break;
             }
             row[columns[j]] = tmp.v;
