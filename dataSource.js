@@ -25,17 +25,21 @@ function readXlsxColumn(filePath, columns) {
     //console.log('lines: ' + lines);
 
     var data = [];
-    var row, tmp;
+    var row, tmp, filled;
     for (var i = 1; i <= lines; i++) {
         row = {};
+        filled = false;
         for (var j = 0, len = columns.length; j < len; j++) {
             tmp = xlsxData.Sheets[sheetName][[columns[j] + i]];
-            if (!tmp || !tmp.v || !tmp.v.toString().trim()) {
-                break;
+            //if (!tmp || !tmp.v || !tmp.v.toString().trim()) {
+            //    break;
+            //}
+            if (tmp && tmp.v) {
+                row[columns[j]] = tmp.v;
+                filled = true;
             }
-            row[columns[j]] = tmp.v;
         }
-        if (row.hasOwnProperty(columns[0])) {
+        if (filled) {
             data.push(row);
         }
     }
@@ -77,13 +81,16 @@ function jsonToCsv(filePath, data, fields) {
     }
     d += fields[fieldsLen] + '\r\n';
     var len = data.length;
+    var tmp;
     for (i = 0; i < len; i++) {
         for (j = 0; j < fieldsLen; j++) {
             //console.log('fields: ' + [fields[j]]);
             //console.log('d: ' + d);
-            d += data[i][fields[j]] + ',';
+            tmp = data[i][fields[j]] || '未提供';
+            d += tmp + ',';
         }
-        d += data[i][fields[fieldsLen]] + '\r\n';
+        tmp = data[i][fields[j]] || '未提供';
+        d += tmp + '\r\n';
     }
     fs.writeFileSync(filePath, d, 'utf8');
 }
@@ -145,6 +152,15 @@ function getGender(idNumber) {
     return index ? 'male' : 'female';
 }
 
+// 删除字符串前后的空白字符（不仅限于空格）
+function trimSpace(str) {
+    if (!str) {
+        return '';
+    }
+    var raw = str.toString();
+    return raw.replace(/\s+/g, '');
+}
+
 // 从指定文件夹中读取普通文件
 function getNormalFiles(dir) {
     try {
@@ -175,5 +191,6 @@ module.exports = {
     getGender: getGender,
     validIdNumber: validIdNumber,
     validPhone: validPhone,
-    getNormalFiles: getNormalFiles
+    getNormalFiles: getNormalFiles,
+    trimSpace: trimSpace
 };
