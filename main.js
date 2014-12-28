@@ -31,7 +31,7 @@ function processFile(filename) {
             e[fields[1]].trim() != '姓名' && e[fields[1]].trim() != '';
     });
     if (errData.length) {
-        console.log('!!!发现有不符合规范的数据');
+        console.log('-->发现有不符合规范的数据');
     }
     //console.log(JSON.stringify(errData));
     dataSource.jsonToCsv(filename + '.txt', errData, fields);

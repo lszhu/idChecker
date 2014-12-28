@@ -1,1 +1,1 @@
-node main.js -d dir
+node main.js -d data
