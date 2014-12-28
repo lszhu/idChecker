@@ -13,15 +13,16 @@ function readXlsxColumn(filePath, columns) {
     } catch (e) {
         console.log('数据文件读取失败');
         console.log('数据文件名：' + filePath);
+        console.log('请检查文的位置或名称是否正确，并确保有访问权限');
         return [];
     }
 
     var sheetName = xlsxData.SheetNames[0];
     var ref = xlsxData.Sheets[sheetName]['!ref'];
-    console.log('ref: ' + ref);
+    //console.log('ref: ' + ref);
     var lines = ref.match(/\d*$/);
     lines = lines ? parseInt(lines) : 0;
-    console.log('lines: ' + lines);
+    //console.log('lines: ' + lines);
 
     var data = [];
     var row, tmp;
@@ -146,7 +147,13 @@ function getGender(idNumber) {
 
 // 从指定文件夹中读取普通文件
 function getNormalFiles(dir) {
-    var dirs = fs.readdirSync(dir);
+    try {
+        var dirs = fs.readdirSync(dir);
+    } catch (e) {
+        console.log('读取文件夹出现错误：' + JSON.stringify(e));
+        console.log('请检查文件夹的位置或名称是否正确，并确保有访问权限');
+        return [];
+    }
     //console.log(dirs);
     var fileType;
     var fileList = [];
