@@ -1,0 +1,11 @@
+{
+    "version": "0.5.0",
+    "private": true,
+    "name": "idChecker",
+    "description": "A tool to validate Id number",
+    "license": "MIT",
+    "dependencies": {
+        "commander": "^2.5",
+        "xlsx": "~0.7"
+    }
+}
